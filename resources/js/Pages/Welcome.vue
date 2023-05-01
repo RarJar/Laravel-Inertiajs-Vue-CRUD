@@ -2,7 +2,19 @@
   <div class="bg-purple-200 py-5">
     <div class="container mx-auto">
 
-      <h3 class=" font-semibold text-3xl text-purple-700 mb-4">User List</h3>
+      <div class="mb-4 flex justify-between items-center">
+        <h3 class=" font-semibold text-3xl text-purple-700">User List</h3>
+        <button class="bg-purple-800 p-2 rounded-md text-slate-200 focus:ring-2 focus:ring-purple-500">User Create</button>
+      </div>
+
+      <div class="flex p-4 mb-4 text-blue-800 border-t-4 border-purple-400 bg-blue-50" v-if="message">
+          <div class="ml-3 text-sm font-medium">
+            {{ message }}
+          </div>
+          <button type="button" class="ml-auto -mx-1.5 -my-1.5 bg-blue-50 text-blue-500 rounded-lg focus:ring-2 focus:ring-blue-400 p-1.5 hover:bg-blue-200 h-8 w-8 flex justify-center items-center">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+      </div>
 
       <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
           <table class="w-full text-sm text-left text-gray-500">
@@ -55,7 +67,7 @@
 
 <script>
   export default {
-  props: ['users'],
+  props: ['users','message'],
     methods: {
       deleteUser (userId) {
         this.$inertia.delete(`/delete/${userId}`);

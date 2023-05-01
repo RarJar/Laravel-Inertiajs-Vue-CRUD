@@ -18,6 +18,6 @@ class UserController extends Controller
     // Delete
     function Delete($userId){
         User::where('id',$userId)->delete();
-        return back();
+        return back()->with(['delete_success'=>'A user was deleted successfully']);
     }
 }
