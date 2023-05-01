@@ -11,7 +11,13 @@ class UserController extends Controller
     // Welcome
     function Welcome(){
         return Inertia::render('Welcome',[
-            'users'=> User::all()
+            'users'=> User::get()
         ]);
+    }
+
+    // Delete
+    function Delete($userId){
+        User::where('id',$userId)->delete();
+        return back();
     }
 }

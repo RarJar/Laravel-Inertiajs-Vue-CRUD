@@ -41,7 +41,7 @@
                         </td>
                       <td class="px-6 py-4 space-x-5 text-lg">
                         <a href="#" class="font-medium text-blue-600 hover:underline">Edit</a>
-                        <a href="#" class="font-medium text-red-600 hover:underline">Edit</a>
+                        <button class="font-medium text-red-600 hover:underline" @click="deleteUser(user.id)">Delete</button>
                       </td>
                   </tr>
               </tbody>
@@ -55,7 +55,12 @@
 
 <script>
   export default {
-    props: ['users']
+  props: ['users'],
+    methods: {
+      deleteUser (userId) {
+        this.$inertia.delete(`/delete/${userId}`);
+      }
+    }
   }
 </script>
 
