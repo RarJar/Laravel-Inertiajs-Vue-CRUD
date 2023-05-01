@@ -4,14 +4,14 @@
 
       <div class="mb-4 flex justify-between items-center">
         <h3 class=" font-semibold text-3xl text-purple-700">User List</h3>
-        <button class="bg-purple-800 p-2 rounded-md text-slate-200 focus:ring-2 focus:ring-purple-500">User Create</button>
+        <a class="bg-purple-800 p-2 cursor-pointer rounded-md text-slate-200 focus:ring-2 focus:ring-purple-500" @click="toCreatePage">Create User</a>
       </div>
 
       <div class="flex p-4 mb-4 text-blue-800 border-t-4 border-purple-400 bg-blue-50" v-if="message">
           <div class="ml-3 text-sm font-medium">
             {{ message }}
           </div>
-          <button type="button" class="ml-auto -mx-1.5 -my-1.5 bg-blue-50 text-blue-500 rounded-lg focus:ring-2 focus:ring-blue-400 p-1.5 hover:bg-blue-200 h-8 w-8 flex justify-center items-center">
+          <button class="ml-auto -mx-1.5 -my-1.5 bg-blue-50 text-blue-500 rounded-lg focus:ring-2 focus:ring-blue-400 p-1.5 hover:bg-blue-200 h-8 w-8 flex justify-center items-center">
             <i class="fa-solid fa-xmark"></i>
           </button>
       </div>
@@ -66,11 +66,14 @@
 </template>
 
 <script>
-  export default {
+  export default{
   props: ['users','message'],
     methods: {
       deleteUser (userId) {
         this.$inertia.delete(`/delete/${userId}`);
+      },
+      toCreatePage() {
+        this.$inertia.get('/createPage');
       }
     }
   }
