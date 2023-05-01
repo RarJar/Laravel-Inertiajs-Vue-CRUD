@@ -12,6 +12,8 @@
                             placeholder=" " v-model="userData.name" />
                         <label for="floating_email"
                             class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Name</label>
+
+                        <p class="text-red-600 mt-3">{{ errors.name }}</p>
                     </div>
                     <div class="relative z-0 w-full mb-6 group">
                         <input type="email" name="floating_password" id="floating_password"
@@ -19,6 +21,8 @@
                             placeholder=" " v-model="userData.email" />
                         <label for="floating_password"
                             class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Email</label>
+
+                        <p class="text-red-600 mt-3">{{ errors.email }}</p>
                     </div>
                     
                     <Link href="/"
@@ -39,7 +43,7 @@
 <script>
 import { Link } from '@inertiajs/vue3'
 export default {
-    props: ['users'],
+    props: ['users','errors'],
 
     components: {
         Link
@@ -47,6 +51,7 @@ export default {
     data() {
         return {
             userData: {
+                id: this.users.id,
                 name: this.users.name,
                 email: this.users.email
             }

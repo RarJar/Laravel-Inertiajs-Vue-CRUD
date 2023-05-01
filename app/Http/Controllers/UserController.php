@@ -29,6 +29,12 @@ class UserController extends Controller
 
     // createUser
     function createUser(Request $request){
+        $request->validate([
+            'name'=> 'required',
+            'email'=> 'required|email|unique:users,email',
+            'password'=> 'required|min:8'
+        ]);
+
         User::create([
             'name'=> $request->name,
             'email'=> $request->email,
@@ -46,6 +52,11 @@ class UserController extends Controller
 
     // updateUser
     function updateUser(Request $request){
+        $request->validate([
+            'name'=> 'required',
+            'email'=> 'required|email|unique:users,email,' . $request->id
+        ]);
+
         User::where('email',$request->email)->update([
             'name'=> $request->name,
             'email'=> $request->email
