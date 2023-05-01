@@ -15,4 +15,6 @@ Route::controller(UserController::class)->group(function () {
     Route::get('/toUpdateUserPage/{userId}', 'toUpdateUserPage');
     
     Route::post('/updateUser', 'updateUser');
+
+    Route::get('/searchUser', 'searchUser');
 });

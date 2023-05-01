@@ -63,4 +63,19 @@ class UserController extends Controller
         ]);
         return redirect()->route('CRUD.welcomePage')->with('success_message', 'A user was updated successfully');
     }
+
+    // searchUser
+    function searchUser(){
+        $searchData = request('key');
+
+        $users = User::when($searchData,function($p){
+            $searchData = request('key');
+            $p->where('name','like','%' . $searchData .'%');
+        })->orderBy('id','desc')->get();
+
+        return Inertia::render('Welcome',[
+            'users'=> $users,
+            'search_value' =>$searchData
+        ]);
+    }
 }

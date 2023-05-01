@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-purple-200 py-5 h-screen">
+    <div class="bg-purple-200 py-5 h-screen px-4 md-px-0">
         <div class="container mx-auto">
 
             <h3 class=" font-semibold text-3xl text-purple-700 mb-4">Create User</h3>
