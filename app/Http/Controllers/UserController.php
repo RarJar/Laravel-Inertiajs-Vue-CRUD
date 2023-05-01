@@ -34,6 +34,22 @@ class UserController extends Controller
             'email'=> $request->email,
             'password'=> Hash::make($request->password)
         ]);
-        return redirect()->route('CRUD.welcomePage')->with('success_message', 'Post created successfully!');
+        return redirect()->route('CRUD.welcomePage')->with('success_message', 'A user was created successfully');
+    }
+
+    // toUpdateUserPage
+    function toUpdateUserPage($userId){
+        return Inertia::render('EditView', [
+            'users'=> User::where('id',$userId)->orderBy('id','desc')->first()
+        ]);
+    }
+
+    // updateUser
+    function updateUser(Request $request){
+        User::where('email',$request->email)->update([
+            'name'=> $request->name,
+            'email'=> $request->email
+        ]);
+        return redirect()->route('CRUD.welcomePage')->with('success_message', 'A user was updated successfully');
     }
 }

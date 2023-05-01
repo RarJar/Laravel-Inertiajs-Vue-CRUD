@@ -52,7 +52,7 @@
                              {{ user.created_at }}
                         </td>
                       <td class="px-6 py-4 space-x-5 text-lg">
-                        <a href="#" class="font-medium text-blue-600 hover:underline">Edit</a>
+                        <button class="font-medium text-blue-600 hover:underline" @click="toUpdateUserPage(user.id)">Edit</button>
                         <button class="font-medium text-red-600 hover:underline" @click="deleteUser(user.id)">Delete</button>
                       </td>
                   </tr>
@@ -74,6 +74,9 @@
       },
       toCreatePage() {
         this.$inertia.get('/createPage');
+      },
+      toUpdateUserPage(userId) {
+        this.$inertia.get(`/toUpdateUserPage/${userId}`);
       }
     }
   }

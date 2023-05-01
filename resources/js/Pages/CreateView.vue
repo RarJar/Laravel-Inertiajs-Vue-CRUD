@@ -4,16 +4,6 @@
 
             <h3 class=" font-semibold text-3xl text-purple-700 mb-4">Create User</h3>
 
-            <div class="flex p-4 mb-4 text-blue-800 border-t-4 border-purple-400 bg-blue-50" v-if="message">
-                <div class="ml-3 text-sm font-medium">
-                    {{ message }}
-                </div>
-                <button
-                    class="ml-auto -mx-1.5 -my-1.5 bg-blue-50 text-blue-500 rounded-lg focus:ring-2 focus:ring-blue-400 p-1.5 hover:bg-blue-200 h-8 w-8 flex justify-center items-center">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </div>
-
             <div class="shadow-md rounded-lg p-5 bg-purple-100">
                 
                 <form>
