@@ -5,7 +5,7 @@
             <h3 class=" font-semibold text-3xl text-purple-700 mb-4">Create User</h3>
 
             <div class="shadow-md rounded-lg p-5 bg-purple-100">
-                
+
                 <form>
                     <div class="relative z-0 w-full mb-6 group">
                         <input type="text" name="floating_email" id="floating_email" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " v-model="createData.name"/>
@@ -56,12 +56,8 @@ export default {
         },
         methods: {
             createUser () {
-                this.$inertia.post('/createUser', this.createData);
+                this.$inertia.post('/user/store', this.createData);
             }
         }
     }
 </script>
-
-<style lang="stylus" scoped>
-
-</style>

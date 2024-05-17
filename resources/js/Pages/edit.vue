@@ -24,7 +24,7 @@
 
                         <p class="text-red-600 mt-3">{{ errors.email }}</p>
                     </div>
-                    
+
                     <Link href="/"
                         class="text-white bg-blue-700 hover:bg-ble-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center me-4">
                     Back</Link>
@@ -43,7 +43,7 @@
 <script>
 import { Link } from '@inertiajs/vue3'
 export default {
-    props: ['users','errors'],
+    props: ['user','errors'],
 
     components: {
         Link
@@ -51,15 +51,15 @@ export default {
     data() {
         return {
             userData: {
-                id: this.users.id,
-                name: this.users.name,
-                email: this.users.email
+                id: this.user.id,
+                name: this.user.name,
+                email: this.user.email
             }
         }
     },
     methods: {
         updateUser() {
-            this.$inertia.post('/updateUser', this.userData);
+            this.$inertia.post('/user/update', this.userData);
         }
     }
 }

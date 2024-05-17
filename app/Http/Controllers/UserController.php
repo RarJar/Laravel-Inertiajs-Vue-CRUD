@@ -5,64 +5,58 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    function Welcome()
+    function index()
     {
-        return Inertia::render('Welcome', [
-            'users' => User::orderBy('id', 'desc')->paginate(7),
-            'user_count' => User::count()
+        return Inertia::render('index', [
+            'users' => User::latest()->paginate(7)
         ]);
     }
 
-    function Delete($userId)
+    function create()
     {
-        User::find($userId)->delete();
-        return back()->with(['success_message' => 'A user was deleted successfully']);
+        return Inertia::render('create');
     }
 
-    function createPage()
+    function store(UserRequest $request)
     {
-        return Inertia::render('CreateView');
-    }
-
-    function createUser(Request $request)
-    {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:8'
-        ]);
-
         User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password)
         ]);
-        return redirect()->route('CRUD.welcomePage')->with('success_message', 'A user was created successfully');
+        return redirect()->route('index')->with('message', 'User created successfully');
     }
 
-    function toUpdateUserPage($userId)
+    function edit(User $user)
     {
-        return Inertia::render('EditView', [
-            'users' => User::where('id', $userId)->orderBy('id', 'desc')->first()
+        return Inertia::render('edit', [
+            'user' => $user
         ]);
     }
 
-    function updateUser(Request $request)
+    function update(Request $request)
     {
         $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users,email,' . $request->id
         ]);
 
-        User::where('email', $request->email)->update([
+        User::whereEmail($request->email)->update([
             'name' => $request->name,
             'email' => $request->email
         ]);
-        return redirect()->route('CRUD.welcomePage')->with('success_message', 'A user was updated successfully');
+        return redirect()->route('index')->with('message', 'User updated successfully');
+    }
+
+    function destroy(User $user)
+    {
+        $user->delete();
+        return back()->with(['message' => 'User deleted successfully']);
     }
 
     function searchUser()
@@ -74,7 +68,7 @@ class UserController extends Controller
             $p->where('name', 'like', '%' . $searchData . '%');
         })->orderBy('id', 'desc')->paginate(7);
 
-        return Inertia::render('Welcome', [
+        return Inertia::render('index', [
             'users' => $users,
             'search_value' => $searchData
         ]);

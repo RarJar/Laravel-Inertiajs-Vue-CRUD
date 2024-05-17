@@ -4,17 +4,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 
 Route::controller(UserController::class)->group(function () {
-    Route::get('/', 'Welcome')->name('CRUD.welcomePage');
-
-    Route::delete('/delete/{userId}', 'Delete');
-
-    Route::get('/createPage', 'createPage');
-
-    Route::post('/createUser', 'createUser');
-
-    Route::get('/toUpdateUserPage/{userId}', 'toUpdateUserPage');
-    
-    Route::post('/updateUser', 'updateUser');
-
+    Route::get('/', 'index')->name('index');
+    Route::get('/user/create', 'create');
+    Route::post('/user/store', 'store');
+    Route::get('/user/edit/{user}', 'edit');
+    Route::post('/user/update', 'update');
+    Route::delete('/destroy/{user}', 'destroy');
     Route::get('/searchUser', 'searchUser');
 });

@@ -3,7 +3,7 @@
         <div class="container mx-auto space-y-5">
             <div class="flex justify-between items-center">
                 <h3 class="font-semibold text-3xl text-purple-700">
-                    User List | <a class="text-lg">Total - {{ user_count }}</a>
+                    User List | <a class="text-lg">Total - {{ users.total }}</a>
                 </h3>
                 <a
                     class="bg-purple-800 p-2 cursor-pointer rounded-md text-slate-200 focus:ring-2 focus:ring-purple-500"
@@ -44,7 +44,6 @@
             </form>
             <!-- SearchBar -->
 
-            <!-- Error message -->
             <div
                 class="flex p-4 text-blue-800 border-t-4 border-purple-400 bg-blue-50"
                 v-if="message"
@@ -58,14 +57,11 @@
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
-            <!-- Error message -->
 
-            <!-- Table -->
-            <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+            <div class="overflow-x-auto shadow-md rounded-lg" v-if="users.total > 0">
                 <table class="w-full text-sm text-left text-gray-500">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                         <tr>
-                            <th scope="col" class="px-6 py-3">ID</th>
                             <th scope="col" class="px-6 py-3">NAME</th>
                             <th scope="col" class="px-6 py-3">EMAIL</th>
                             <th scope="col" class="px-6 py-3">CREATED DATE</th>
@@ -78,12 +74,6 @@
                             v-for="(user, index) in users.data"
                             :key="index"
                         >
-                            <th
-                                scope="row"
-                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
-                            >
-                                {{ user.id }}
-                            </th>
                             <td class="px-6 py-4">
                                 {{ user.name }}
                             </td>
@@ -96,13 +86,13 @@
                             <td class="px-6 py-4 space-x-5 text-lg">
                                 <button
                                     class="font-medium text-blue-600 hover:underline"
-                                    @click="toUpdateUserPage(user.id)"
+                                    @click="toUpdateUserPage(user)"
                                 >
                                     Edit
                                 </button>
                                 <button
                                     class="font-medium text-red-600 hover:underline"
-                                    @click="deleteUser(user.id)"
+                                    @click="destroyUser(user)"
                                 >
                                     Delete
                                 </button>
@@ -110,20 +100,16 @@
                         </tr>
                     </tbody>
                 </table>
-
-                <div
-                    class="flex p-4 m-4 text-red-600 rounded-md bg-red-50"
-                    v-if="users.length == 0"
-                >
-                    <div class="ml-3 text-sm font-medium">
-                        There is no user !
-                    </div>
-                </div>
             </div>
-            <!-- Table -->
+            <div
+                class="flex justify-center text-red-600 text-xl"
+                v-else
+            >
+                There is no user !
+            </div>
 
             <!-- Pagination -->
-            <nav aria-label="Page navigation example mt-5">
+            <nav class="mt-5 w-full flex justify-center items-center" v-if="users.total > 7">
                 <ul class="inline-flex -space-x-px">
                     <li v-for="(link, index) in users.links" :key="index">
                         <Link
@@ -135,7 +121,6 @@
                     </li>
                 </ul>
             </nav>
-            <!-- Pagination -->
         </div>
     </div>
 </template>
@@ -144,7 +129,7 @@
 import { Link } from "@inertiajs/vue3";
 
 export default {
-    props: ["users", "user_count", "message", "search_value"],
+    props: ["users","message", "search_value"],
     components: {
         Link,
     },
@@ -154,14 +139,14 @@ export default {
         };
     },
     methods: {
-        deleteUser(userId) {
-            this.$inertia.delete(`/delete/${userId}`);
-        },
         toCreatePage() {
-            this.$inertia.get("/createPage");
+            this.$inertia.get("/user/create");
         },
-        toUpdateUserPage(userId) {
-            this.$inertia.get(`/toUpdateUserPage/${userId}`);
+        toUpdateUserPage(user) {
+            this.$inertia.get(`/user/edit/${user.id}`);
+        },
+        destroyUser(user) {
+            this.$inertia.delete(`/destroy/${user.id}`);
         },
         searchUser() {
             this.$inertia.get(`/searchUser?key=${this.searchData}`);
@@ -169,5 +154,3 @@ export default {
     },
 };
 </script>
-
-<style lang="stylus" scoped></style>
