@@ -9,73 +9,74 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    // Welcome
-    function Welcome(){
-        return Inertia::render('Welcome',[
-            'users'=> User::orderBy('id','desc')->get()
+    function Welcome()
+    {
+        return Inertia::render('Welcome', [
+            'users' => User::orderBy('id', 'desc')->paginate(7),
+            'user_count' => User::count()
         ]);
     }
 
-    // Delete
-    function Delete($userId){
-        User::where('id',$userId)->delete();
-        return back()->with(['success_message'=>'A user was deleted successfully']);
+    function Delete($userId)
+    {
+        User::find($userId)->delete();
+        return back()->with(['success_message' => 'A user was deleted successfully']);
     }
 
-    // createPage
-    function createPage(){
+    function createPage()
+    {
         return Inertia::render('CreateView');
     }
 
-    // createUser
-    function createUser(Request $request){
+    function createUser(Request $request)
+    {
         $request->validate([
-            'name'=> 'required',
-            'email'=> 'required|email|unique:users,email',
-            'password'=> 'required|min:8'
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:8'
         ]);
 
         User::create([
-            'name'=> $request->name,
-            'email'=> $request->email,
-            'password'=> Hash::make($request->password)
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password)
         ]);
         return redirect()->route('CRUD.welcomePage')->with('success_message', 'A user was created successfully');
     }
 
-    // toUpdateUserPage
-    function toUpdateUserPage($userId){
+    function toUpdateUserPage($userId)
+    {
         return Inertia::render('EditView', [
-            'users'=> User::where('id',$userId)->orderBy('id','desc')->first()
+            'users' => User::where('id', $userId)->orderBy('id', 'desc')->first()
         ]);
     }
 
-    // updateUser
-    function updateUser(Request $request){
+    function updateUser(Request $request)
+    {
         $request->validate([
-            'name'=> 'required',
-            'email'=> 'required|email|unique:users,email,' . $request->id
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email,' . $request->id
         ]);
 
-        User::where('email',$request->email)->update([
-            'name'=> $request->name,
-            'email'=> $request->email
+        User::where('email', $request->email)->update([
+            'name' => $request->name,
+            'email' => $request->email
         ]);
         return redirect()->route('CRUD.welcomePage')->with('success_message', 'A user was updated successfully');
     }
 
-    // searchUser
-    function searchUser(){
+    function searchUser()
+    {
         $searchData = request('key');
 
-        $users = User::when($searchData,function($p){
+        $users = User::when($searchData, function ($p) {
             $searchData = request('key');
-            $p->where('name','like','%' . $searchData .'%');
-        })->orderBy('id','desc')->get();
+            $p->where('name', 'like', '%' . $searchData . '%');
+        })->orderBy('id', 'desc')->paginate(7);
 
-        return Inertia::render('Welcome',[
-            'users'=> $users,
-            'search_value' =>$searchData
+        return Inertia::render('Welcome', [
+            'users' => $users,
+            'search_value' => $searchData
         ]);
     }
 }
