@@ -81,7 +81,7 @@
                                 {{ user.email }}
                             </td>
                             <td class="px-6 py-4">
-                                {{ user.created_at }}
+                                {{ formatDate(user.created_at) }}
                             </td>
                             <td class="px-6 py-4 space-x-5 text-lg">
                                 <button
@@ -127,6 +127,7 @@
 
 <script>
 import { Link } from "@inertiajs/vue3";
+import moment from "moment";
 
 export default {
     props: ["users","message", "search_value"],
@@ -151,6 +152,9 @@ export default {
         searchUser() {
             this.$inertia.get(`/searchUser?key=${this.searchData}`);
         },
+        formatDate(date) {
+            return moment(date).format('DD-MM-YYYY');
+        }
     },
 };
 </script>
